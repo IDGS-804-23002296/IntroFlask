@@ -1,5 +1,13 @@
 {% extends "layout.html" %}
 {% block content %}
+
+{% import "_macros.html" as macros %}
     <h1>Hola desde saludo1</h1>
+    <form method="post" action="">
+        {{ macros.datos('nombre', 'Escribe tu nombre') }}
+        {{ macros.datos('edad', 'Escribe tu edad', 'number') }}
+        {{ macros.email('email', 'Escribe tu email', 'email') }}
+        {{ macros.datos('password', 'Escribe tu contraseña', 'password') }}
+    </form>
 {% endblock %}
 

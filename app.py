@@ -1,3 +1,4 @@
+import math
 from flask import Flask, render_template, request
 
 app = Flask(__name__)
@@ -12,17 +13,46 @@ def index():
 def saludo1():
     return render_template('saludo1.html')
 
-@app.route('/saludo2')
+@app.route('/saludo2', methods=['GET', 'POST'])
 def saludo2():
-    return render_template('saludo2.html')
+    resultado = None
+    if request.method == 'POST':
+        x1 = float(request.form.get('num1'))
+        y1 = float(request.form.get('num2'))
+        x2 = float(request.form.get('num3'))
+        y2 = float(request.form.get('num4'))
+        
+        dist = math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
+        resultado = round(dist, 2)
+        
+    return render_template('saludo2.html', resultado=resultado)
 
-@app.route('/operasBas')
+@app.route('/operasBas', methods=['GET', 'POST'])
 def operasBas():
-    return render_template('operasBas.html')
+        res=None
+        if request.method == 'POST':
+            n1=request.form.get('num1')
+            n2=request.form.get('num2')
+            msj=''
+
+            if request.form.get('operacion') == 'Sumar':
+                res=float(n1)+float(n2)
+                msj='El resultado de la suma es:'
+            if request.form.get('operacion') == 'Restar':
+                res=float(n1)-float(n2)
+                msj='El resultado de la resta es:'
+            if request.form.get('operacion') == 'Multiplicar':
+                res=float(n1)*float(n2)
+                msj='El resultado de la multiplicación es:'
+            if request.form.get('operacion') == 'Dividir':
+                res=float(n1)/float(n2)
+                msj='El resultado de la división es:'
+
+        return render_template('operasBas.html', msj=msj, res=res)
 
 @app.route('/resultado', methods=['GET', 'POST'])
 def resul():
-    n1=request.form.get('num')
+    n1=request.form.get('num1')
     n2=request.form.get('num2')
     return f"<h1>La suma es: {float(n1)+float(n2)}</h1>"
 
@@ -67,5 +97,20 @@ def operas():
         </form>
 '''
 
+@app.route('/distancia', methods=['GET', 'POST'])
+def distancia():
+    resultado = None
+    if request.method == 'POST':
+        x1 = float(request.form.get('num1'))
+        y1 = float(request.form.get('num2'))
+        x2 = float(request.form.get('num3'))
+        y2 = float(request.form.get('num4'))
+        
+        dist = math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
+        resultado = round(dist, 2)
+        
+    return render_template('distancia.html', resultado=resultado)
+
 if __name__ =='__main__':
     app.run(debug=True) #cada que guarde o genere un cambio en el proyecto, va a ser visible en el navegador gracias a debug=True
+

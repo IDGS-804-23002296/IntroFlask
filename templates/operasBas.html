@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
-<form method="post" action="/resultado">
+<form method="post" action="/operasBas">
     <div class="mb-3">
         <label for="num1" class="form-label">Numero 1:</label>
         <input type="number" class="form-control" id="num1" name="num1">
@@ -10,6 +10,27 @@
         <input type="number" class="form-control" id="num2" name="num2">
     </div>
 
+    <label class="form-label">Selecciona la operacion:</label>
+
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="operacion" value="Sumar" checked>
+        <label class="form-check-label">Sumar</label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="operacion" value="Restar" checked>
+        <label class="form-check-label">Restar</label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="operacion" value="Multiplicar" checked>
+        <label class="form-check-label">Multiplicar</label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="operacion" value="Dividir" checked>
+        <label class="form-check-label">Dividir</label>
+    </div>
+
     <button type="submit" class="btn btn-primary">calcular</button>
 </form>
+
+<h1>{{ msj }} {{ res }}</h1>
 {% endblock %}

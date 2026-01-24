@@ -4,7 +4,7 @@
 
     <h1>Cálculo de Distancia</h1>
     
-    <form method="post" action="/saludo2">
+    <form method="post" action="/distancia">
         {{ macros.datos('num1', 'Coordenada x1', 'number') }}
         {{ macros.datos('num2', 'Coordenada y1', 'number') }}
         {{ macros.datos('num3', 'Coordenada x2', 'number') }}
@@ -15,8 +15,6 @@
 
     <hr>
     
-    {% if resultado is not none %}
-        <h2>La distancia es: {{ resultado }}</h2>
-    {% endif %}
+    <h2>La distancia es: {{ resultado }}</h2>
 
 {% endblock %}
