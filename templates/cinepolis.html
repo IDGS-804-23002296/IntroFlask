@@ -1,0 +1,112 @@
+{% extends "layout.html" %}
+{# Importamos la macro específica para que aparezcan los errores debajo #}
+{% from "_macros.html" import camposNuevosCinepolis %}
+
+{% block content %}
+<style>
+    .cine-container {
+        background-color: #2D3195;
+        background-image: url("{{ url_for('static', filename='img/fondoCinepolis.jpg') }}");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 70% 55%;
+        border: 3px solid #fff;
+        padding: 30px;
+        border-radius: 10px;
+        color: white;
+    }
+    .section-box {
+        font-family: 'Times New Roman', Times, serif;
+        border: 1px solid white;
+        padding: 20px;
+        position: relative;
+        margin-top: 25px;
+        min-height: 150px;
+    }
+    .section-title {
+        position: absolute;
+        top: -18px;
+        left: 15px;
+        font-size: 24px;
+        background-color: #2D3195;
+        padding: 0 10px;
+        font-style: italic;
+        font-weight: bold;
+    }
+    .cine-logo {
+        font-family: 'Times New Roman', Times, serif;
+        font-weight: 900;
+        font-size: 50px;
+        margin-bottom: 0;
+        font-style: italic;
+    }
+</style>
+
+<div class="cine-container shadow-lg">
+    <div class="text-center mb-4">
+        <h1 class="cine-logo">Cinépolis</h1>
+    </div>
+
+    <form method="POST" novalidate>
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        
+        <div class="row">
+            <div class="col-md-7">
+                <div class="section-box">
+                    <span class="section-title">Entradas</span>
+                    
+                    {# Nombre #}
+                    {{ camposNuevosCinepolis(form.nombre) }}
+                    
+                    {# Cantidad de Compradores #}
+                    {{ camposNuevosCinepolis(form.compradores) }}
+                    
+                    {# Tarjeta Cineco (Radio Buttons) #}
+                    <div class="mb-3">
+                        <label class="fw-bold d-block">{{ form.cineco.label }}</label>
+                        {% for subfield in form.cineco %}
+                            <div class="form-check form-check-inline">
+                                {{ subfield(class="form-check-input") }}
+                                <label class="form-check-label">{{ subfield.label.text }}</label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    
+                    {# Cantidad de Boletas #}
+                    {{ camposNuevosCinepolis(form.boletas) }}
+                </div>
+            </div>
+
+            <div class="col-md-5">
+                <div class="section-box h-100">
+                    <span class="section-title">Salidas</span>
+                    
+                    <div class="mb-3 mt-3">
+                        <label class="fw-bold">Valor a Pagar</label>
+                        <input type="text" class="form-control bg-light fw-bold text-dark" 
+                               value="${{ "{:,.2f}".format(total) }}" readonly>
+                    </div>
+                    
+                    {# Mensaje de error personalizado (Regla de las 7 boletas) #}
+                    {% if error %}
+                    <div class="alert alert-danger mt-3 py-2 small fw-bold">
+                        {{ error }}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-12 text-center">
+                <div class="section-box d-inline-block px-5" style="min-height: auto;">
+                    <span class="section-title">Acciones</span>
+                    <button type="submit" class="btn btn-light mx-2 fw-bold">Procesar</button>
+                    <a href="{{ url_for('cinepolis') }}" class="btn btn-light mx-2 fw-bold">Limpiar</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
